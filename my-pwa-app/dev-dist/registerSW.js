@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/pwatest/dev-sw.js?dev-sw', { scope: '/pwatest/', type: 'classic' })
