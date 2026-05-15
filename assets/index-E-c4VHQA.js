@@ -12,7 +12,7 @@ if (app) {
       <section class="panel">
         <p class="eyebrow">Orange Marquee</p>
         <h1>橘色背景跑馬燈</h1>
-        <p class="description">輸入你想顯示的文字，按 Enter 後就會全螢幕播放。</p>
+        <p class="description">輸入時會同步預覽，按 Enter 後就會隱藏輸入框並全螢幕播放。</p>
         <label class="input-label" for="marquee-input">跑馬燈文字</label>
         <input id="marquee-input" class="text-input" type="text" maxlength="120" placeholder="請輸入跑馬燈文字" />
         <p class="hint">最多 120 個字，內容會保存在目前瀏覽器。按 Esc 可返回編輯。</p>
@@ -46,16 +46,32 @@ if (app) {
     }
   };
 
+  const focusInput = () => {
+    input.focus();
+    input.select();
+  };
+
+  const handleEscape = (event) => {
+    if (event.key !== "Escape") {
+      return;
+    }
+    event.preventDefault();
+    exitDisplayMode();
+  };
+
   const setDisplayMode = (nextState) => {
+    if (isDisplayMode === nextState) {
+      return;
+    }
     isDisplayMode = nextState;
     document.body.classList.toggle("is-display-mode", nextState);
     page.classList.toggle("is-display-mode", nextState);
     panel.hidden = nextState;
-  };
-
-  const focusInput = () => {
-    input.focus();
-    input.select();
+    if (nextState) {
+      document.addEventListener("keydown", handleEscape);
+      return;
+    }
+    document.removeEventListener("keydown", handleEscape);
   };
 
   const enterDisplayMode = async () => {
@@ -98,12 +114,6 @@ if (app) {
   });
   marqueeShell.addEventListener("dblclick", () => {
     if (isDisplayMode) {
-      exitDisplayMode();
-    }
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && isDisplayMode) {
-      event.preventDefault();
       exitDisplayMode();
     }
   });
