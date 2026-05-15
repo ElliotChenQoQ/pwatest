@@ -5,7 +5,7 @@ const app = document.querySelector("#app");
 
 if (app) {
   const savedMessage = window.localStorage.getItem(STORAGE_KEY);
-  const initialMessage = savedMessage?.trim() || DEFAULT_MESSAGE;
+  const initialMessage = (savedMessage && savedMessage.trim()) || DEFAULT_MESSAGE;
 
   app.innerHTML = `
     <main class="page">
@@ -35,7 +35,11 @@ if (app) {
     marqueeTexts.forEach((node) => {
       node.textContent = nextMessage;
     });
-    window.localStorage.setItem(STORAGE_KEY, nextMessage);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, nextMessage);
+    } catch (error) {
+      console.warn("Unable to save marquee message.", error);
+    }
   };
 
   input.value = initialMessage;
