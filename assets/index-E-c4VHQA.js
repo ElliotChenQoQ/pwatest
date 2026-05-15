@@ -53,6 +53,11 @@ if (app) {
     panel.hidden = nextState;
   };
 
+  const focusInput = () => {
+    input.focus();
+    input.select();
+  };
+
   const enterDisplayMode = async () => {
     updateMessage(input.value);
     setDisplayMode(true);
@@ -76,8 +81,7 @@ if (app) {
         console.warn("Unable to exit fullscreen mode.", error);
       }
     }
-    input.focus();
-    input.select();
+    focusInput();
   };
 
   input.value = initialMessage;
@@ -106,8 +110,7 @@ if (app) {
   document.addEventListener("fullscreenchange", () => {
     if (!document.fullscreenElement && isDisplayMode) {
       setDisplayMode(false);
-      input.focus();
-      input.select();
+      focusInput();
     }
   });
 }
