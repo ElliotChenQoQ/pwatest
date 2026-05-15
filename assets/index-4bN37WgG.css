@@ -33,9 +33,17 @@ input {
 }
 
 .page {
+  display: flex;
+  flex-direction: column;
   width: min(960px, calc(100% - 32px));
   margin: 0 auto;
   padding: 32px 0 48px;
+}
+
+.page.is-display-mode {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
 }
 
 .panel {
@@ -109,12 +117,28 @@ h1 {
   box-shadow: inset 0 0 0 1px rgba(255, 247, 237, 0.08);
 }
 
+.page.is-display-mode .marquee-shell {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 100vh;
+  margin-top: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 .marquee-track {
   display: flex;
   width: max-content;
   min-width: 100%;
   padding: 20px 0;
   animation: marquee 14s linear infinite;
+}
+
+.page.is-display-mode .marquee-track {
+  padding: 0;
 }
 
 .marquee-text {
@@ -127,6 +151,10 @@ h1 {
   text-shadow: 0 8px 24px rgba(124, 45, 18, 0.28);
 }
 
+.page.is-display-mode .marquee-text {
+  font-size: clamp(3rem, 14vw, 10rem);
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -135,6 +163,10 @@ h1 {
   to {
     transform: translateX(-50%);
   }
+}
+
+body.is-display-mode {
+  overflow: hidden;
 }
 
 @media (max-width: 640px) {
