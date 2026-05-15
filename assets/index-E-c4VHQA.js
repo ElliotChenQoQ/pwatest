@@ -59,6 +59,18 @@ if (app) {
     exitDisplayMode();
   };
 
+  const handleMarqueeDoubleClick = () => {
+    exitDisplayMode();
+  };
+
+  const handleFullscreenChange = () => {
+    if (document.fullscreenElement || !isDisplayMode) {
+      return;
+    }
+    setDisplayMode(false);
+    focusInput();
+  };
+
   const setDisplayMode = (nextState) => {
     if (isDisplayMode === nextState) {
       return;
@@ -69,9 +81,13 @@ if (app) {
     panel.hidden = nextState;
     if (nextState) {
       document.addEventListener("keydown", handleEscape);
+      document.addEventListener("fullscreenchange", handleFullscreenChange);
+      marqueeShell.addEventListener("dblclick", handleMarqueeDoubleClick);
       return;
     }
     document.removeEventListener("keydown", handleEscape);
+    document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    marqueeShell.removeEventListener("dblclick", handleMarqueeDoubleClick);
   };
 
   const enterDisplayMode = async () => {
@@ -111,16 +127,5 @@ if (app) {
     }
     event.preventDefault();
     enterDisplayMode();
-  });
-  marqueeShell.addEventListener("dblclick", () => {
-    if (isDisplayMode) {
-      exitDisplayMode();
-    }
-  });
-  document.addEventListener("fullscreenchange", () => {
-    if (!document.fullscreenElement && isDisplayMode) {
-      setDisplayMode(false);
-      focusInput();
-    }
   });
 }
