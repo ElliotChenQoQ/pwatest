@@ -47,8 +47,10 @@ if (app) {
   };
 
   const focusInput = () => {
-    input.focus();
-    input.select();
+    window.requestAnimationFrame(() => {
+      input.focus();
+      input.select();
+    });
   };
 
   const handleEscape = (event) => {
