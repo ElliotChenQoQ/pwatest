@@ -4,8 +4,8 @@ const DEFAULT_MESSAGE = "歡迎使用橘色背景跑馬燈";
 const app = document.querySelector("#app");
 
 if (app) {
-  const savedMessage = window.localStorage.getItem(STORAGE_KEY)?.trim();
-  const initialMessage = savedMessage || DEFAULT_MESSAGE;
+  const savedMessage = window.localStorage.getItem(STORAGE_KEY);
+  const initialMessage = savedMessage?.trim() || DEFAULT_MESSAGE;
 
   app.innerHTML = `
     <main class="page">
@@ -28,7 +28,7 @@ if (app) {
   `;
 
   const input = document.querySelector("#marquee-input");
-  const marqueeTexts = Array.from(document.querySelectorAll(".marquee-text"));
+  const marqueeTexts = document.querySelectorAll(".marquee-text");
 
   const updateMessage = (value) => {
     const nextMessage = value.trim() || DEFAULT_MESSAGE;
