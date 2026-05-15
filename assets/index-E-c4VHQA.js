@@ -66,7 +66,7 @@ if (app) {
   };
 
   const handleFullscreenChange = () => {
-    if (document.fullscreenElement || !isDisplayMode) {
+    if (!isDisplayMode || document.fullscreenElement) {
       return;
     }
     setDisplayMode(false);
